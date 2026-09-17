@@ -138,6 +138,45 @@ Then:
 
 ---
 
+## Troubleshooting & Maintenance
+
+During this exercise, we encountered and resolved several CI/CD integration issues. Here are the commands used to fix them:
+
+### 1. Fix Jenkins Git Workspace Corruption
+If a previous build crashes and corrupts the Jenkins workspace (`error: object file is empty`), manually clear the workspace and caches from the Jenkins container:
+```bash
+docker exec jenkins sh -c "rm -rf /var/jenkins_home/workspace/student-management*"
+docker exec jenkins sh -c "rm -rf /var/jenkins_home/caches/git-*"
+```
+
+### 2. Fix Docker Socket Permission Denied in Jenkins
+If the Jenkins pipeline fails at the Docker Build stage with `permission denied while trying to connect to the Docker daemon socket`:
+```bash
+docker exec -u root jenkins chmod 666 /var/run/docker.sock
+```
+
+### 3. Fix Docker Desktop Memory Crashes
+If Docker crashes or stops automatically during resource-intensive Maven/Java builds, limit WSL's memory usage by creating a `.wslconfig` file in your Windows User folder (`C:\Users\<username>\.wslconfig`):
+```ini
+[wsl2]
+memory=8GB 
+processors=4
+swap=4GB
+```
+Then restart WSL and Docker:
+```powershell
+wsl --shutdown
+# Then manually reopen Docker Desktop
+```
+
+### 4. Clear Old Docker Builds
+To clean up space from previous crashed or dangling Docker images:
+```bash
+docker system prune -a -f
+```
+
+---
+
 ## Project Structure
 
 ```
