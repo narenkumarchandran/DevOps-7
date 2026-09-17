@@ -16,13 +16,19 @@ pipeline {
         jdk   'JDK-21'      // Must match the JDK tool name configured in Jenkins
     }
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
+
     stages {
 
         // ---------------------------------------------------------------
         stage('Checkout') {
         // ---------------------------------------------------------------
             steps {
-                echo '====== Stage 1: Checking out source code ======'
+                echo '====== Stage 1: Cleaning workspace and checking out source code ======'
+                deleteDir() // This cleans up the workspace to prevent corrupted git objects
                 checkout scm
                 sh 'git log --oneline -5'
             }
