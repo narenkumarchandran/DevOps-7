@@ -114,8 +114,8 @@ pipeline {
                     # Wait for the app to start
                     sleep 15
 
-                    # Hit the health endpoint
-                    curl -f http://localhost:${HOST_PORT}/students/health || \
+                    # Hit the health endpoint inside the container
+                    docker exec ${CONTAINER_NAME} wget -q -O - http://localhost:${CONTAINER_PORT}/students/health || \
                         (echo "Health check failed!" && exit 1)
 
                     echo "Application is UP and running on port ${HOST_PORT}!"
