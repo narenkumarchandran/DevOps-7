@@ -15,11 +15,11 @@ import java.util.Map;
  * REST Controller for Student Management API.
  *
  * Endpoints:
- *   POST   /students       - Add a new student
- *   GET    /students       - Get all students
- *   GET    /students/{id}  - Get student by ID
- *   DELETE /students/{id}  - Delete student by ID
- *   GET    /health         - Health check
+ *   POST   /students          - Add a new student
+ *   GET    /students          - Get all students
+ *   GET    /students/{id}     - Get student by ID (id must be numeric)
+ *   DELETE /students/{id}     - Delete student by ID (id must be numeric)
+ *   GET    /students/health   - Health check
  */
 @RestController
 @RequestMapping("/students")
@@ -61,7 +61,7 @@ public class StudentController {
      * Get a student by ID.
      * GET /students/{id}
      */
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public ResponseEntity<?> getStudentById(@PathVariable Long id) {
         return studentService.getStudentById(id)
                 .map(ResponseEntity::ok)
@@ -72,7 +72,7 @@ public class StudentController {
      * Delete a student by ID.
      * DELETE /students/{id}
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
         try {
             studentService.deleteStudent(id);
