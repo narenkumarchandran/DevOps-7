@@ -1,8 +1,8 @@
 # ============================================================
 # Stage 1: Build
-# Uses Maven with JDK 17 to compile and package the application
+# Uses Maven with JDK 22 to compile and package the application
 # ============================================================
-FROM maven:3.9.6-eclipse-temurin-17 AS builder
+FROM maven:3.9.6-eclipse-temurin-22 AS builder
 
 WORKDIR /app
 
@@ -18,7 +18,7 @@ RUN mvn clean package -DskipTests -B
 # Stage 2: Runtime
 # Uses a lightweight JRE image to run the packaged JAR
 # ============================================================
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:22-jre-alpine
 
 # Add metadata labels
 LABEL maintainer="DevOps Student"

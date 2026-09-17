@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version>
+        <version>3.3.3</version>
         <relativePath/>
     </parent>
 
@@ -21,7 +21,7 @@
     <description>A simple Student Management REST API for DevOps CI/CD pipeline demonstration</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>22</java.version>
     </properties>
 
     <dependencies>
