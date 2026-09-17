@@ -1,23 +1,3 @@
-# ============================================================
-# Stage 1: Build
-# Uses Maven with JDK 21 to compile and package the application
-# ============================================================
-FROM maven:3.9.6-eclipse-temurin-21 AS builder
-
-WORKDIR /app
-
-# Copy pom.xml first to leverage Docker layer caching for dependencies
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
-
-# Copy source code and build the application
-COPY src ./src
-RUN mvn clean package -DskipTests -B
-
-# ============================================================
-# Stage 2: Runtime
-# Uses a lightweight JRE image to run the packaged JAR
-# ============================================================
 FROM eclipse-temurin:21-jre-alpine
 
 # Add metadata labels
@@ -30,8 +10,8 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR /app
 
-# Copy the JAR from the builder stage
-COPY --from=builder /app/target/student-management-1.0.0.jar app.jar
+# Copy the JAR from the Jenkins workspace (target directory)
+COPY target/student-management-1.0.0.jar app.jar
 
 # Set ownership
 RUN chown appuser:appgroup app.jar
